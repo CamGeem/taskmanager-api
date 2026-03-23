@@ -15,7 +15,7 @@ public class TaskController {
     }
 
     // GET /tasks → list all tasks
-    @GetMapping("/tasks")
+    @GetMapping
     public List<Task> getTasks() {
         return manager.getTasks();
     }
