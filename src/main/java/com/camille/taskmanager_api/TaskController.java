@@ -6,7 +6,6 @@ import java.util.List;
 
 @RestController
 public class TaskController {
-
     private final TaskManager manager;
 
     public TaskController() {
