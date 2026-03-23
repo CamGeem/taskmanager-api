@@ -1,5 +1,5 @@
 // Model
-package com.camille;
+package com.camille.taskmanager_api;
 
 public class Task {
     private int id;
