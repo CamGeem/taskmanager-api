@@ -1,5 +1,7 @@
 package com.camille.taskmanager_api;
 
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+@Component
 public class TaskManager {
     ArrayList<Task>  tasks;
     private int nextId = 1;
