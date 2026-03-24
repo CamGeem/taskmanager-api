@@ -13,8 +13,8 @@ import java.util.List;
 public class TaskService {
     private final TaskManager manager;
 
-    public TaskService() {
-        this.manager = new TaskManager();
+    public TaskService(TaskManager manager) {
+        this.manager = manager;
         manager.loadTasks("tasks.txt");
     }
 
