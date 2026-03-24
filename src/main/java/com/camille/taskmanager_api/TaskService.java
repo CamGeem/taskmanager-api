@@ -1,5 +1,6 @@
 package com.camille.taskmanager_api;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.List;
 public class TaskService {
     private final TaskManager manager;
 
-    public TaskService(TaskManager manager) {
+    public TaskService(@Qualifier("inMemoryTaskManager")TaskManager manager) {
         this.manager = manager;
         manager.loadTasks("tasks.txt");
     }
