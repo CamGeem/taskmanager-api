@@ -22,6 +22,18 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
+    // GET /tasks → list all completed tasks
+    @GetMapping({"/completed"})
+    public List<Task> getCompletedTasks() {
+        return service.getCompletedTasks();
+    }
+
+    // GET /tasks → list all pending tasks
+    @GetMapping({"/pending"})
+    public List<Task> getPendingTasks() {
+        return service.getPendingTasks();
+    }
+
     // POST /tasks → add a new task
     @PostMapping
     public ResponseEntity<Task> addTask(@RequestBody Task task) {
@@ -37,6 +49,17 @@ public class TaskController {
             return ResponseEntity.ok(updateTask);
         }else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping({"/{id}/complete"})
+    public ResponseEntity<String> completeTask(@PathVariable int id) {
+        boolean updated = service.markTaskCompleted(id);
+
+        if (updated) {
+            return ResponseEntity.ok("Task marked as completed");
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found");
         }
     }
 
