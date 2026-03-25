@@ -23,15 +23,27 @@ public class TaskController {
     }
 
     // GET /tasks → list all completed tasks
-    @GetMapping({"/completed"})
-    public List<Task> getCompletedTasks() {
-        return service.getCompletedTasks();
+    @GetMapping("/completed")
+    public ResponseEntity<List<Task>> getCompletedTasks() {
+        return ResponseEntity.ok(service.getCompletedTasks());
     }
 
     // GET /tasks → list all pending tasks
-    @GetMapping({"/pending"})
-    public List<Task> getPendingTasks() {
-        return service.getPendingTasks();
+    @GetMapping("/pending")
+    public ResponseEntity<List<Task>> getPendingTasks() {
+        return ResponseEntity.ok(service.getPendingTasks());
+    }
+
+    // Get /task by id
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTaskById(@PathVariable int id) {
+        Task task = service.getTaskById(id);
+
+        if (task != null) {
+            return ResponseEntity.ok(task);
+        }else  {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // POST /tasks → add a new task
@@ -44,15 +56,15 @@ public class TaskController {
     // PUT /tasks/{id} → update a task
     @PutMapping("/{id}")
     public ResponseEntity <Task> updateTask(@PathVariable int id, @RequestBody Task task) {
-        Task updateTask = service.updateTask(id, task.getName(), task.getDescription());
-        if(updateTask != null) {
-            return ResponseEntity.ok(updateTask);
+        Task updatedTask = service.updateTask(id, task.getName(), task.getDescription());
+        if(updatedTask != null) {
+            return ResponseEntity.ok(updatedTask);
         }else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PutMapping({"/{id}/complete"})
+    @PutMapping("/{id}/complete")
     public ResponseEntity<String> completeTask(@PathVariable int id) {
         boolean updated = service.markTaskCompleted(id);
 
