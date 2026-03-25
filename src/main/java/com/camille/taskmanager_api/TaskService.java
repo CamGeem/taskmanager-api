@@ -14,7 +14,7 @@ import java.util.List;
 public class TaskService {
     private final TaskManager manager;
 
-    public TaskService(@Qualifier("inMemoryTaskManager")TaskManager manager) {
+    public TaskService(@Qualifier("taskManagerImplement")    TaskManager manager) {
         this.manager = manager;
         manager.loadTasks("tasks.txt");
     }
@@ -28,6 +28,24 @@ public class TaskService {
         Task newTask = manager.addTask(name, description);
         manager.saveTasks("tasks.txt");
         return newTask;
+    }
+
+    public List<Task> getCompletedTasks(){
+        return manager.getCompletedTasks();
+    }
+
+    public List<Task> getPendingTasks(){
+        return manager.getPendingTasks();
+    }
+
+    public boolean markTaskCompleted(int id){
+        boolean updated = manager.markTaskCompleted(id);
+
+        if(updated){
+            manager.saveTasks("tasks.txt");
+        }
+
+        return updated;
     }
 
     public Task updateTask(int id, String name, String description) {
