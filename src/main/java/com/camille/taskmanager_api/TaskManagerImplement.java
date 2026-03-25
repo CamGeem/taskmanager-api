@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 
 @Component
-@Primary
 public class TaskManagerImplement implements TaskManager {
     ArrayList<Task> tasks;
     private int nextId = 1;
