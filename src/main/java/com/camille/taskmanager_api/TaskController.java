@@ -49,8 +49,12 @@ public class TaskController {
     // POST /tasks → add a new task
     @PostMapping
     public ResponseEntity<Task> addTask(@RequestBody Task task) {
-        Task newTask = service.addTask(task.getName(), task.getDescription());
-        return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
+        try {
+            Task newTask = service.addTask(task.getName(), task.getDescription());
+            return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     // PUT /tasks/{id} → update a task
