@@ -1,5 +1,6 @@
 package com.camille.taskmanager_api;
 
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +67,14 @@ public class TaskService {
     }
 
     public Task updateTask(int id, String name, String description) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Task name cannot be empty");
+        }
+
+        if (description != null && description.length() > 100) {
+            throw new IllegalArgumentException("Description too long");
+        }
+
         boolean updated = manager.editTask(id, name, description);
         if (updated){
             manager.saveTasks("tasks.txt");
