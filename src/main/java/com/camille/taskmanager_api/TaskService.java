@@ -24,7 +24,15 @@ public class TaskService {
     }
 
     public Task addTask(String name, String description) {
-        // Reuse TaskManager Logic
+
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Task name cannot be empty");
+        }
+
+        if (description != null && description.length() > 100) {
+            description = description.substring(0, 100);
+        }
+
         Task newTask = manager.addTask(name, description);
         manager.saveTasks("tasks.txt");
         return newTask;
@@ -36,6 +44,15 @@ public class TaskService {
 
     public List<Task> getPendingTasks(){
         return manager.getPendingTasks();
+    }
+
+    public Task getTaskById(int id) {
+        for(Task task : getTasks()){
+            if(task.getId() == id){
+                return task;
+            }
+        }
+        return null;
     }
 
     public boolean markTaskCompleted(int id){
