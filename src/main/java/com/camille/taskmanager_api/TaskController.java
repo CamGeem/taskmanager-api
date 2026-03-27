@@ -39,11 +39,7 @@ public class TaskController {
     public ResponseEntity<Task> getTaskById(@PathVariable int id) {
         Task task = service.getTaskById(id);
 
-        if (task != null) {
-            return ResponseEntity.ok(task);
-        }else  {
-            return ResponseEntity.notFound().build();
-        }
+       return  ResponseEntity.ok(task);
     }
 
     // POST /tasks → add a new task
