@@ -51,45 +51,38 @@ public class TaskService {
         return getTasks().stream().filter(task -> task.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException("Task not found with id: " + id));
     }
 
-    public boolean markTaskCompleted(int id){
+    public void markTaskCompleted(int id){
         boolean updated = manager.markTaskCompleted(id);
 
-        if(updated){
-            manager.saveTasks("tasks.txt");
+        if(!updated){
+            throw new IllegalArgumentException("Task not found with id: " + id);
         }
 
-        return updated;
+        manager.saveTasks("tasks.txt");
     }
 
     public Task updateTask(int id, String name, String description) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Task name cannot be empty");
-        }
-
-        if (description != null && description.length() > 100) {
-            throw new IllegalArgumentException("Description too long");
-        }
-
         boolean updated = manager.editTask(id, name, description);
-        if (updated){
-            manager.saveTasks("tasks.txt");
-            return manager.getTasks().stream()
-                    .filter(t -> t.getId() == id)
-                    .findFirst()
-                    .orElse(null);
+
+
+        if (!updated) {
+            throw new IllegalArgumentException("Task not found with id: " + id);
         }
 
-        return null;
+        manager.saveTasks("tasks.txt");
+
+       return manager.getTasks().stream().filter(task -> task.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException("Task not found with id: " + id));
     }
 
 
-    public boolean deleteTask(int id) {
+    public void deleteTask(int id) {
         boolean removed = manager.deleteTask(id);
 
-        if (removed){
-            manager.saveTasks("tasks.txt");
+        if (!removed){
+            throw new IllegalArgumentException("Task not found with id: " + id);
         }
 
-        return removed;
+        manager.saveTasks("tasks.txt");
+
     }
 }
