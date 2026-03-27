@@ -48,12 +48,7 @@ public class TaskService {
     }
 
     public Task getTaskById(int id) {
-        for(Task task : getTasks()){
-            if(task.getId() == id){
-                return task;
-            }
-        }
-        return null;
+        return getTasks().stream().filter(task -> task.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException("Task not found with id: " + id));
     }
 
     public boolean markTaskCompleted(int id){
