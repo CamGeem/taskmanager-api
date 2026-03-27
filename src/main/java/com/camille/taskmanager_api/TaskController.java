@@ -62,24 +62,16 @@ public class TaskController {
 
     @PutMapping("/{id}/complete")
     public ResponseEntity<String> completeTask(@PathVariable int id) {
-        boolean updated = service.markTaskCompleted(id);
+        service.markTaskCompleted(id);
 
-        if (updated) {
-            return ResponseEntity.ok("Task marked as completed");
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found");
-        }
+        return ResponseEntity.ok("Task marked as completed");
     }
 
     // DELETE /tasks/ {id} -> remove task
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable int id) {
-        boolean removed = service.deleteTask(id);
+       service.deleteTask(id);
 
-        if (removed){
-            return ResponseEntity.ok("Task removed successfully");
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found");
-        }
+        return ResponseEntity.ok("Task removed successfully");
     }
 }
