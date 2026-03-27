@@ -21,6 +21,7 @@ public class TaskService {
                 task.isCompleted()
         );
     }
+
     public TaskService(@Qualifier("taskManagerImplement")    TaskManager manager) {
         this.manager = manager;
         manager.loadTasks("tasks.txt");
