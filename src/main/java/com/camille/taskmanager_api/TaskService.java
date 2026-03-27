@@ -48,7 +48,7 @@ public class TaskService {
     }
 
     public Task getTaskById(int id) {
-        return getTasks().stream().filter(task -> task.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException("Task not found with id: " + id));
+        return getTasks().stream().filter(task -> task.getId() == id).findFirst().orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
     }
 
     public void markTaskCompleted(int id){
@@ -61,6 +61,7 @@ public class TaskService {
         manager.saveTasks("tasks.txt");
     }
 
+    // Current Problem: Redundancy
     public Task updateTask(int id, String name, String description) {
         boolean updated = manager.editTask(id, name, description);
 
@@ -71,7 +72,7 @@ public class TaskService {
 
         manager.saveTasks("tasks.txt");
 
-       return manager.getTasks().stream().filter(task -> task.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException("Task not found with id: " + id));
+       return manager.getTasks().stream().filter(task -> task.getId() == id).findFirst().orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
     }
 
 
