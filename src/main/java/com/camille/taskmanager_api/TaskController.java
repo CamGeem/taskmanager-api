@@ -17,8 +17,8 @@ public class TaskController {
 
     // GET /tasks → list all tasks
     @GetMapping
-    public ResponseEntity<List<Task>> getTasks() {
-        List<Task> tasks = service.getTasks();
+    public ResponseEntity<List<TaskDTO>> getTasks() {
+        List<TaskDTO> tasks = service.getTasks();
         return ResponseEntity.ok(tasks);
     }
 
@@ -36,8 +36,8 @@ public class TaskController {
 
     // Get /task by id
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable int id) {
-        Task task = service.getTaskById(id);
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable int id) {
+        TaskDTO task = service.getTaskById(id);
 
        return  ResponseEntity.ok(task);
     }

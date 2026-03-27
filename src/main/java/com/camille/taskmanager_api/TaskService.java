@@ -14,15 +14,18 @@ import java.util.List;
 @Service
 public class TaskService {
     private final TaskManager manager;
-
+    private TaskDTO convert(Task task){
+        return new TaskDTO(
+                task.getId(),
+                task.getName(),
+                task.isCompleted()
+        );
+    }
     public TaskService(@Qualifier("taskManagerImplement")    TaskManager manager) {
         this.manager = manager;
         manager.loadTasks("tasks.txt");
     }
 
-    public List<Task> getTasks() {
-        return manager.getTasks();
-    }
 
     public Task addTask(String name, String description) {
 
@@ -39,6 +42,10 @@ public class TaskService {
         return newTask;
     }
 
+    public List<TaskDTO> getTasks() {
+        return manager.getTasks().stream().map(this::convert).toList();
+    }
+
     public List<Task> getCompletedTasks(){
         return manager.getCompletedTasks();
     }
@@ -47,8 +54,10 @@ public class TaskService {
         return manager.getPendingTasks();
     }
 
-    public Task getTaskById(int id) {
-        return getTasks().stream().filter(task -> task.getId() == id).findFirst().orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
+    public TaskDTO getTaskById(int id) {
+        Task task = manager.getTasks().stream().filter(t -> t.getId() == id).findFirst().orElseThrow(() -> new IllegalArgumentException("No task with id " + id));
+
+        return convert(task);
     }
 
     public void markTaskCompleted(int id){
